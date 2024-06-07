@@ -55,7 +55,7 @@ export const addMenuItem = async (req, res, next) => {
     }
 }
 
-// @desc PUT Ändrar ett menu-item
+// @desc PUT Ändrar ett menu-item med specifikt id.
 // @route /menu
 // @access admin
 export const modifyMenuItem = async (req, res, next) => {
@@ -64,11 +64,50 @@ export const modifyMenuItem = async (req, res, next) => {
 
         const { title, desc, price } = req.body;
 
+        const error = new Error();
+
+        const alreadyInMenu = await database.findOne({ title: title });
+
+        if (alreadyInMenu && alreadyInMenu.id !== id) {
+            error.message = `${title} finns redan på menyn.`;
+            error.status = 400;
+            throw error;
+        }
+
+        if (alreadyInMenu.title === title && alreadyInMenu.desc === desc && alreadyInMenu.price === price) {
+            error.message = `Du har inte ändrat på några uppgifter för ${title}`;
+            error.status = 400;
+            throw error;
+        }
+
         const updateItem = await database.update(
             { id: id },
             { $set: { title, desc, price, modiefiedAt: currentTime() } }
         );
+
         if (updateItem === 0) {
+            error.message = `Kan inte hitta en produkt med id: ${id}`;
+            error.status = 404;
+            throw error;
+        }
+
+        return res.status(200).send({ message: "Meny uppdaterad." });
+
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+// @desc DELETE Raderar ett menu-item med specifikt id.
+// @route /menu
+// @access admin
+export const deleteMenuItem = async (req, res, next) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const removeItem = await database.remove({ id: id });
+        if (removeItem === 0) {
             const error = new Error(`Kan inte hitta en produkt med id: ${id}`)
             error.status = 404;
             throw error
