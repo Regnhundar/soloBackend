@@ -10,7 +10,7 @@ export const database = new nedb({
 // @route /menu
 export const getMenu = async (req, res, next) => {
     try {
-        const menu = await database.find({});
+        const menu = await database.find({}).sort({ id: 1 });
         res.status(200).json(menu);
     } catch (error) {
         next(error);
@@ -55,4 +55,31 @@ export const addMenuItem = async (req, res, next) => {
     }
 }
 
-export default database
+// @desc PUT Ändrar ett menu-item
+// @route /menu
+// @access admin
+export const modifyMenuItem = async (req, res, next) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const { title, desc, price } = req.body;
+
+        const updateItem = await database.update(
+            { id: id },
+            { $set: { title, desc, price, modiefiedAt: currentTime() } }
+        );
+        if (updateItem === 0) {
+            const error = new Error(`Kan inte hitta en produkt med id: ${id}`)
+            error.status = 404;
+            throw error
+
+        } else {
+            return res.status(200).send({ message: "Meny uppdaterad." });
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export default database 
