@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMenu, addMenuItem } from '../controllers/menuController.js'
+import { getMenu, addMenuItem, modifyMenuItem } from '../controllers/menuController.js'
 import adminAccess from '../middleware/adminAccess.js';
 import menuItemSchema from '../models/menuItemSchema.js';
 import joiHandler from '../middleware/joiHandler.js'
@@ -11,5 +11,8 @@ router.get('/', getMenu);
 
 // http://localhost:1337/menu
 router.post('/', adminAccess, joiHandler(menuItemSchema), addMenuItem);
+
+// http://localhost:1337/menu/:id
+router.put('/:id', adminAccess, joiHandler(menuItemSchema), modifyMenuItem);
 
 export default router
