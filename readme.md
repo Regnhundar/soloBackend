@@ -25,7 +25,3 @@
 
 ### Promotions 
 * GET: http://localhost:1337/promotions
-
-
-## Vår Kanban:
-![Screenshot av Kanban.](./assets/kanban.jpg)
