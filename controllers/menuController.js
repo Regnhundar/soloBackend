@@ -56,7 +56,7 @@ export const addMenuItem = async (req, res, next) => {
 }
 
 // @desc PUT Ändrar ett menu-item med specifikt id.
-// @route /menu
+// @route /menu/:id
 // @access admin
 export const modifyMenuItem = async (req, res, next) => {
     try {
@@ -100,7 +100,7 @@ export const modifyMenuItem = async (req, res, next) => {
 }
 
 // @desc DELETE Raderar ett menu-item med specifikt id.
-// @route /menu
+// @route /menu/:id
 // @access admin
 export const deleteMenuItem = async (req, res, next) => {
     try {
