@@ -1,5 +1,5 @@
 import nedb from 'nedb-promises';
-
+import { currentTime } from '../utility/timeFunction.js';
 //Skapar menu-db
 export const database = new nedb({
     filename: './data/menu.db',
@@ -33,7 +33,8 @@ export const addMenuItem = async (req, res, next) => {
                 id: menu[menu.length - 1].id + 1,
                 title: title,
                 desc: desc,
-                price: price
+                price: price,
+                createdAt: currentTime()
             }
             await database.insert(newMenuItem);
 

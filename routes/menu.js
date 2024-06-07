@@ -9,6 +9,7 @@ const router = Router();
 // http://localhost:1337/menu
 router.get('/', getMenu);
 
-router.post('/', adminAccess, joiHandler(menuItemSchema), addMenuItem)
+// http://localhost:1337/menu
+router.post('/', adminAccess, joiHandler(menuItemSchema), addMenuItem);
 
 export default router
