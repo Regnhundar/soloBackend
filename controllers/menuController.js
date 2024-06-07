@@ -68,16 +68,17 @@ export const modifyMenuItem = async (req, res, next) => {
 
         const alreadyInMenu = await database.findOne({ title: title });
 
-        if (alreadyInMenu && alreadyInMenu.id !== id) {
-            error.message = `${title} finns redan på menyn.`;
-            error.status = 400;
-            throw error;
-        }
-
-        if (alreadyInMenu.title === title && alreadyInMenu.desc === desc && alreadyInMenu.price === price) {
-            error.message = `Du har inte ändrat på några uppgifter för ${title}`;
-            error.status = 400;
-            throw error;
+        if (alreadyInMenu) {
+            if (alreadyInMenu.id !== id) {
+                error.message = `${title} finns redan på menyn.`;
+                error.status = 400;
+                throw error;
+            }
+            if (alreadyInMenu.title === title && alreadyInMenu.desc === desc && alreadyInMenu.price === price) {
+                error.message = `Du har inte ändrat på några uppgifter för ${title}`;
+                error.status = 400;
+                throw error;
+            }
         }
 
         const updateItem = await database.update(
