@@ -20,7 +20,7 @@ export const getCart = async (req, res, next) => {
         let totalPrice = 0
 
         //Variabel för användning av promotions (Skickar in cart, shipping och menu till runPromotions som skickar tillbaka dem updated)
-        const { cart: updatedCart, shipping: updatedShipping } = await runPromotions(cart, menu, global.shipping);
+        const { updatedCart } = await runPromotions(cart);
 
         cart.forEach(item => totalPrice += item.price);
 
@@ -29,8 +29,8 @@ export const getCart = async (req, res, next) => {
             status: 200,
             data: {
                 cart: updatedCart,
-                shipping: updatedShipping,
-                total: totalPrice + updatedShipping
+                shipping: global.shipping,
+                total: totalPrice + global.shipping
             }
         });
     } catch (error) {

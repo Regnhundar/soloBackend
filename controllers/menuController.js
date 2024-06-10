@@ -1,7 +1,7 @@
 import nedb from 'nedb-promises';
 import { currentTime } from '../utility/timeFunction.js';
 //Skapar menu-db
-export const database = new nedb({
+const database = new nedb({
     filename: './data/menu.db',
     autoload: true
 });
@@ -29,11 +29,18 @@ export const addMenuItem = async (req, res, next) => {
         const alreadyInMenu = await database.findOne({ title: title });
 
         if (!alreadyInMenu) {
+            let id;
+            if (menu.length === 0) {
+                id = 1
+            } else {
+                id = menu[menu.length - 1].id + 1
+            }
             const newMenuItem = {
-                id: menu[menu.length - 1].id + 1,
+                id: id,
                 title: title,
                 desc: desc,
                 price: price,
+                originalPrice: price,
                 createdAt: currentTime()
             }
             await database.insert(newMenuItem);
@@ -83,7 +90,7 @@ export const modifyMenuItem = async (req, res, next) => {
 
         const updateItem = await database.update(
             { id: id },
-            { $set: { title, desc, price, modiefiedAt: currentTime() } }
+            { $set: { title, desc, price, originalPrice: price, modiefiedAt: currentTime() } }
         );
 
         if (updateItem === 0) {

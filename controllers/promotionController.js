@@ -1,4 +1,6 @@
 import nedb from "nedb-promises"
+import { currentTime } from "../utility/timeFunction.js";
+import menu from "../controllers/menuController.js"
 
 //Skapar promotions db
 const database = new nedb({ filename: "./data/promotions.db", autoload: true });
@@ -19,31 +21,77 @@ export const getPromotions = async (req, res, next) => {
 // @access admin
 export const addPromotion = async (req, res, next) => {
     try {
-        const { title, desc, price } = req.body;
+        const { id, title, information, items } = req.body;
+        const error = new Error();
 
-        const menu = await database.find({}).sort({ id: 1 })
+        if (items.length > 0) {
+            const menuToCheck = await menu.find({});
+            const validatePromotionItems = items.every(requiredItem => menuToCheck.some(menuItem => menuItem.title.toLowerCase() === requiredItem.toLowerCase()));
+            if (!validatePromotionItems) {
+                error.message = `Ett av föremålen du försöker lägga till existerar inte i menyn. Har du stavat fel?`
+                error.status = 404
+                throw error
+            }
+        }
 
-        const alreadyInMenu = await database.findOne({ title: title });
 
-        if (!alreadyInMenu) {
-            const newMenuItem = {
-                id: menu[menu.length - 1].id + 1,
-                title: title,
-                desc: desc,
-                price: price,
+        const alreadyAPromotion = await database.findOne({ id: id });
+
+        if (!alreadyAPromotion) {
+            const newPromotion = {
+                active: false,
+                id,
+                title,
+                information,
+                items,
                 createdAt: currentTime()
             }
-            await database.insert(newMenuItem);
+            await database.insert(newPromotion);
 
             res.status(201).send({
                 data: {
-                    newMenuItem,
-                    menu
+                    newPromotion
                 }
             });
         } else {
-            const error = new Error(`${title} finns redan på menyn.`);
+            error.message = `Finns redan en kampanj med id: ${id}`
             error.status = 400;
+            throw error
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+// @desc PATCH Togglar active true/false på kampanj.
+// @route /promotions/:id
+// @access admin
+export const togglePromotion = async (req, res, next) => {
+    try {
+
+        const id = req.params.id
+
+        let promotionToToggle = await database.findOne({ id: id });
+
+        if (promotionToToggle) {
+
+            await database.update(
+                { id: id },
+                { $set: { active: !promotionToToggle.active, modiefiedAt: currentTime() } }
+            );
+            // Behöver anropa igen för annars blir inte variabeln i data uppdaterad.
+            promotionToToggle = await database.findOne({ id: id });
+
+            res.status(200).send({
+                data: {
+                    activatedPromotion: promotionToToggle
+                }
+            });
+
+        } else {
+            const error = new Error(`Finns ingen kampanj med id: ${id}`);
+            error.status = 404;
             throw error
         }
 

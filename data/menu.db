@@ -1,4 +1,9 @@
-{"id":5,"title":"Beanssss","desc":"Bananas in havanas","price":60,"_id":"ExmPe2zawVkmv4j3","modiefiedAt":"2024-06-07 at 22:02:42"}
-{"id":7,"title":"Hubbas-bubba","desc":"Sjukt äckligt kaffe med smak av hubba-bubba","price":20,"createdAt":"2024-06-07 at 13:50:39","_id":"IqJEzpl7RYTdiUEJ"}
-{"id":1,"title":"Beans","desc":"Bananas in havanas","price":55,"_id":"LlCWa8SDq6uSBrvV","modiefiedAt":"2024-06-07 at 14:12:45"}
-{"id":6,"title":"Hubba-bubba","desc":"Sjukt äckligt kaffe med smak av hubba-bubba","price":60,"createdAt":"2024-06-07 at 13:50:07","_id":"virUXudmn97T3i80","modiefiedAt":"2024-06-07 at 22:07:02"}
+{"id":2,"title":"Caffè Doppio","desc":"Bryggd på månadens bönor.","price":49,"originalPrice":49,"createdAt":"2024-06-10 at 21:18:47","_id":"AAlPuuzS85EHHCjI"}
+{"id":3,"title":"Cappuccino","desc":"Bryggd på månadens bönor.","price":49,"originalPrice":49,"createdAt":"2024-06-10 at 21:19:03","_id":"BxNWlDgIF0uLgC5E"}
+{"id":7,"title":"Hubba-Bubba","desc":"Kaffe som smakar hubba-bubba. Sjukt.","price":69,"originalPrice":69,"createdAt":"2024-06-10 at 21:21:33","_id":"CQ3LCVajSY1ZX2X0"}
+{"id":9,"title":"Macaron","desc":"Franskt kladd. Köp en Kanelbulle istället.","price":30,"originalPrice":30,"createdAt":"2024-06-10 at 22:16:27","_id":"DgEugfRl0naYm0N4"}
+{"id":5,"title":"Kaffe Latte","desc":"Bryggd på månadens bönor.","price":54,"originalPrice":54,"createdAt":"2024-06-10 at 21:19:38","_id":"H1XvWlFKAmDsivME"}
+{"id":4,"title":"Latte Macchiato","desc":"Bryggd på månadens bönor.","price":49,"originalPrice":49,"createdAt":"2024-06-10 at 21:19:17","_id":"OsfOEqcaUUn1D1lp"}
+{"id":8,"title":"Kanelbulle","desc":"Det bästa som finns helt enkelt.","price":20,"originalPrice":20,"createdAt":"2024-06-10 at 21:41:10","_id":"VInRY5PVUqHCX9Ap"}
+{"id":1,"title":"Bryggkaffe","desc":"Bryggd på månadens bönor.","price":39,"originalPrice":39,"createdAt":"2024-06-10 at 21:18:10","_id":"w2TJUeTu3N1BKqX2"}
+{"id":6,"title":"Cortado","desc":"Bryggd på månadens bönor.","price":39,"originalPrice":39,"createdAt":"2024-06-10 at 21:19:45","_id":"zrLu6vcfIOQTKymF","modiefiedAt":"2024-06-10 at 21:20:33"}
