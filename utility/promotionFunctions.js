@@ -7,7 +7,7 @@ export const runPromotions = async (cart) => {
     if (activePromotions.length >= 1) {
 
         for (const promotion of activePromotions) {
-            switch (promotion.id) {
+            switch (promotion.code) {
                 case "svenssonSpecial":
                     updatedCart = await freeItem(updatedCart, promotion.items, "Kanelbulle");
                     break
@@ -23,7 +23,7 @@ export const runPromotions = async (cart) => {
 
     return { updatedCart }
 }
-// Tar emot cart, en array av krav som ska uppfyllas och vilket föremål som bli gratis.
+// Tar emot cart, en array av krav som ska uppfyllas och vilket föremål som blir gratis.
 const freeItem = async (cart, requiredItems, freebie) => {
     const numberOfCombos = comboCount(cart, requiredItems);
     if (numberOfCombos > 0) {
@@ -77,22 +77,6 @@ const packageDeal = async (cart, requiredItems, discount) => {
     return cart;
 }
 
-// const packageDeal = async (cart, requiredItems, discount) => {
-//     const numberOfCombos = comboCount(cart, requiredItems);
-//     if (numberOfCombos > 0) {
-//         for (let requiredItem of requiredItems) {
-//             let promotionItems = cart.filter(cartItem => cartItem.title === requiredItem);
-//             const originalItem = await menuDB.findOne({ title: requiredItem });
-//             for (let i = 0; i < numberOfCombos; i++) {
-//                 if (promotionItems[i].price === originalItem.price) {
-//                     promotionItems[i].price = Math.ceil(promotionItems[i].price * discount);
-//                 }
-//             }
-//         }
-//     }
-//     return cart
-// }
-
 const validPromotion = (cart, requiredItems) => {
     return requiredItems.every(requiredItem => cart.some(cartItem => cartItem.title === requiredItem))
 }
@@ -102,16 +86,18 @@ const validPromotion = (cart, requiredItems) => {
 const comboCount = (cart, requiredItems) => {
     const itemCount = {}
 
+    // Om requiredItems innehåller ["Macron", "Macron", "Macron"] så kommer itemCount bli "Macron" : 3
     requiredItems.forEach(item => {
         itemCount[item] = (itemCount[item] || 0) + 1;
     });
 
     let completeCombos = Infinity;
 
+    // Object.keys(itemCount) gör itemcount till en array och tillåter array-metoder.
     Object.keys(itemCount).forEach(item => {
-        const requiredCount = itemCount[item];
-        const cartCount = cart.filter(cartItem => cartItem.title === item).length; // Räknar samtliga items i requiredItems.
-        completeCombos = Math.min(completeCombos, Math.floor(cartCount / requiredCount)); // Sätter completeCombos till det lägsta numret av completeCombos och itemCount
+        const requiredCount = itemCount[item]; // Hur många som behövs av respektive item för att aktivera kampanj.
+        const cartCount = cart.filter(cartItem => cartItem.title === item).length; // Räknar samtliga required items i cart.
+        completeCombos = Math.min(completeCombos, Math.floor(cartCount / requiredCount)); // Sätter completeCombos till det lägsta numret av completeCombos och Math.Floor uträkningen.
     });
 
     return completeCombos;

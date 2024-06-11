@@ -1,18 +1,18 @@
 import Joi from "joi";
 
 const promotionSchema = Joi.object({
-    id: Joi.string()
-        .min(5).max(15).message("Måste ange ett ID mellan 2 och 15 tecken.")
+    code: Joi.string()
+        .min(2).message("Code får minst vara 2 tecken.").max(15).message("Code får högst vara 15 tecken.")
         .required(),
     title: Joi.string()
-        .min(5).max(25).message("Måste ange en titel mellan 5 och 20 tecken."),
+        .min(5).message("Titel får minst vara 5 tecken").max(25).message("Titel får högst vara 25 tecken"),
     information: Joi.string()
-        .min(10).max(100).message("Du måste ange en beskrivning mellan 10 och 100 tecken.")
+        .min(10).message("Kampanjinformationen får minst vara 10 tecken").max(100).message("Kampanjinformationen får högst vara 100 tecken")
         .required(),
     items: Joi.array().items(
         Joi.string()
-            .min(5).max(15).message("Produktnamn måste vara mellan 2 och 15 tecken.")
-    ).min(1).message("Du måste ange minst ett produktnamn.")
+            .min(2).message("Produktnamn får minst vara 2 tecken.").max(15).message("Produktnamn får högst vara 15 tecken.")
+    )
         .required()
 });
 

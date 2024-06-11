@@ -16,10 +16,8 @@ export const getCart = async (req, res, next) => {
             throw (error);
         }
 
-        //Skapar totalPrice för cart
         let totalPrice = 0
 
-        //Variabel för användning av promotions (Skickar in cart, shipping och menu till runPromotions som skickar tillbaka dem updated)
         const { updatedCart } = await runPromotions(cart);
 
         cart.forEach(item => totalPrice += item.price);
