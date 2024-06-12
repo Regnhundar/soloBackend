@@ -23,7 +23,8 @@ För att sätta admin måste man manuellt ändra i databasen.
 
 ## Logga in:  
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
-> [!IMPORTANT] OBS: Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.
+> [!TIP]
+> Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.
 ### Body:  
 ```{"username": "Wenger", "password": "MyWinterCoat9"```
 ### URL:   
