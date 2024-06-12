@@ -7,17 +7,19 @@ export const runPromotions = async (cart) => {
     if (activePromotions.length >= 1) {
 
         for (const promotion of activePromotions) {
-            switch (promotion.code) {
-                case "svenssonSpecial":
-                    updatedCart = await freeItem(updatedCart, promotion.items, "Kanelbulle");
+            switch (promotion.type) {
+                case "free":
+                    updatedCart = await freeItem(updatedCart, promotion.items, promotion.freeItem);
                     break
 
-                case "halfOff":
-                    updatedCart = await packageDeal(updatedCart, promotion.items, .5);
+                case "package":
+                    updatedCart = await packageDeal(updatedCart, promotion.items, promotion.discount);
                     break
 
+                case "shipping":
+                    global.shipping = freeShipping();
+                    break
             }
-
         }
     }
 
@@ -77,9 +79,6 @@ const packageDeal = async (cart, requiredItems, discount) => {
     return cart;
 }
 
-const validPromotion = (cart, requiredItems) => {
-    return requiredItems.every(requiredItem => cart.some(cartItem => cartItem.title === requiredItem))
-}
 
 // Går igenom arrayen requiredItems och jämför med cart. Returnerar siffran på kompletta "meals" i cart. 
 // Är requiredItems [Bryggkaffe, Cortado] och cart innehåller 2 Bryggkaffe och 1 Cortado returneras 1.
@@ -93,7 +92,7 @@ const comboCount = (cart, requiredItems) => {
 
     let completeCombos = Infinity;
 
-    // Object.keys(itemCount) gör itemcount till en array och tillåter array-metoder.
+    // Object.keys(itemCount) gör itemCount till en array och tillåter array-metoder.
     Object.keys(itemCount).forEach(item => {
         const requiredCount = itemCount[item]; // Hur många som behövs av respektive item för att aktivera kampanj.
         const cartCount = cart.filter(cartItem => cartItem.title === item).length; // Räknar samtliga required items i cart.
@@ -103,10 +102,10 @@ const comboCount = (cart, requiredItems) => {
     return completeCombos;
 };
 
-export const freeUserShipping = () => {
+const freeShipping = () => {
     if (global.currentUser) {
-        global.shipping = 0;
+        return 0;
     } else {
-        global.shipping = 50;
+        return 50;
     }
 }

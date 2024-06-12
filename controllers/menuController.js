@@ -69,9 +69,15 @@ export const modifyMenuItem = async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
 
-        const { title, desc, price } = req.body;
-
         const error = new Error();
+
+        if (isNaN(id)) {
+            error.message = "Du måste ange produktens id med siffror";
+            error.status = 401;
+            throw error;
+        }
+
+        const { title, desc, price } = req.body;
 
         const alreadyInMenu = await database.findOne({ title: title });
 
@@ -113,10 +119,16 @@ export const modifyMenuItem = async (req, res, next) => {
 export const deleteMenuItem = async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
+        const error = new Error();
+        if (isNaN(id)) {
+            error.message = "Du måste ange produktens id med siffror";
+            error.status = 401;
+            throw error;
+        }
 
         const removeItem = await database.remove({ id: id });
         if (removeItem === 0) {
-            const error = new Error(`Kan inte hitta en produkt med id: ${id}`)
+            error.message = `Kan inte hitta en produkt med id: ${id}`
             error.status = 404;
             throw error
 

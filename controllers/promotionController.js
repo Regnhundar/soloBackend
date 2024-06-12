@@ -22,18 +22,55 @@ export const getPromotions = async (req, res, next) => {
 // @access admin
 export const addPromotion = async (req, res, next) => {
     try {
-        const { code, title, information, items } = req.body;
+        const { type, code, title, information, items, discount, freeItem } = req.body;
 
         const error = new Error();
+        const menuToCheck = await menu.find({});
 
-        if (items.length > 0) {
-            const menuToCheck = await menu.find({});
-            const validatePromotionItems = items.every(requiredItem => menuToCheck.some(menuItem => menuItem.title.toLowerCase() === requiredItem.toLowerCase()));
+        if (items && items.length > 0) {
+
+            const validatePromotionItems = items.every(requiredItem => menuToCheck.some(menuItem => menuItem.title === requiredItem));
             if (!validatePromotionItems) {
                 error.message = `Ett av föremålen du försöker lägga till existerar inte i menyn. Har du stavat fel?`
                 error.status = 404
                 throw error
             }
+        }
+
+        if (type === "free") {
+            if (!freeItem) {
+                error.message = "Du måste ange vad som ska vara gratis.";
+                error.status = 400;
+                throw error;
+            }
+
+            if (!items || items.length < 2) {
+                error.message = "Du måste ange minst 2 items som ingår i paketet"
+                error.status = 400;
+                throw error;
+            }
+
+            const validateFreeItem = items.some(item => item === freeItem);
+            if (!validateFreeItem) {
+                error.message = `${freeItem} måste ingå i items. Har du stavat fel?`
+                error.status = 404;
+                throw error;
+            }
+
+        }
+
+        if (type === "package") {
+            if (!discount) {
+                error.message = "Du måste ange discount";
+                error.status = 400;
+                throw error;
+            }
+            if (!items || items.length < 2) {
+                error.message = "Du måste ange 2 items om ingår i paketet"
+                error.status = 400;
+                throw error;
+            }
+
         }
 
         const promotions = await database.find({}).sort({ id: 1 })
@@ -51,10 +88,13 @@ export const addPromotion = async (req, res, next) => {
             const newPromotion = {
                 id,
                 active: false,
+                type,
                 code,
                 title,
                 information,
                 items,
+                discount,
+                freeItem,
                 createdAt: currentTime()
             }
             await database.insert(newPromotion);
@@ -83,6 +123,13 @@ export const togglePromotion = async (req, res, next) => {
     try {
 
         const id = parseInt(req.params.id)
+        const error = new Error();
+
+        if (isNaN(id)) {
+            error.message = "Du måste ange kampanjens id med siffror";
+            error.status = 401;
+            throw error;
+        }
 
         let promotionToToggle = await database.findOne({ id: id });
 
@@ -97,12 +144,13 @@ export const togglePromotion = async (req, res, next) => {
 
             res.status(200).send({
                 data: {
-                    activatedPromotion: promotionToToggle
+                    success: true,
+                    toggledPromotion: promotionToToggle
                 }
             });
 
         } else {
-            const error = new Error(`Finns ingen kampanj med id: ${id}`);
+            error.message = `Finns ingen kampanj med id: ${id}`
             error.status = 404;
             throw error
         }
@@ -119,14 +167,20 @@ export const modifyPromotion = async (req, res, next) => {
     try {
 
         const id = parseInt(req.params.id);
-
-        const { code, title, information, items } = req.body;
-
         const error = new Error();
 
+        if (isNaN(id)) {
+            error.message = "Du måste ange kampanjens id med siffror";
+            error.status = 401;
+            throw error;
+        }
+
+        const { type, code, title, information, items, discount, freeItem } = req.body;
+
+        const menuToCheck = await menu.find({});
+
         if (items.length > 0) {
-            const menuToCheck = await menu.find({});
-            const validatePromotionItems = items.every(requiredItem => menuToCheck.some(menuItem => menuItem.title.toLowerCase() === requiredItem.toLowerCase()));
+            const validatePromotionItems = items.every(requiredItem => menuToCheck.some(menuItem => menuItem.title === requiredItem));
             if (!validatePromotionItems) {
                 error.message = `Ett av föremålen du försöker lägga till existerar inte i menyn. Har du stavat fel?`
                 error.status = 404
@@ -134,32 +188,58 @@ export const modifyPromotion = async (req, res, next) => {
             }
         }
 
-        let promotionToModify = await database.findOne({ code: code });
+        let promotionToModify = await database.findOne({ id: id });
 
-        if (promotionToModify) {
-            if (promotionToModify.id !== id) {
-                error.message = `Finns redan en promotion med code: ${code}`;
-                error.status = 400;
-                throw error;
-            }
 
-            if (promotionToModify.code === code && promotionToModify.title === title && promotionToModify.information === information && compareArrays(promotionToModify.items, items)) {
-                error.message = `Du har inte ändrat på några uppgifter för ${code}`;
-                error.status = 400;
-                throw error;
-            }
-        }
-
-        const updatePromotion = await database.update(
-            { id: id },
-            { $set: { code, title, information, items, modiefiedAt: currentTime() } }
-        );
-
-        if (updatePromotion === 0) {
-            error.message = `Finns ingen kampanj med code: ${code}`;
+        if (!promotionToModify) {
+            error.message = `Finns ingen promotion med id ${id}`;
             error.status = 404;
             throw error
         }
+
+        if (promotionToModify.type === "free" || type === "free") {
+            if (!freeItem) {
+                error.message = "Du måste ange vad som ska vara gratis.";
+                error.status = 400;
+                throw error;
+            }
+
+            const validateFreeItem = menuToCheck.some(menuItem => menuItem.title === freeItem);
+
+            if (!validateFreeItem) {
+                error.message = `${freeItem} existerar inte i menyn. Har du stavat fel?`
+                error.status = 404;
+                throw error;
+            }
+        }
+
+        if (promotionToModify.type === "package" || type === "package") {
+            if (!discount) {
+                error.message = "Du måste ange discount";
+                error.status = 400;
+                throw error;
+            }
+
+        }
+
+        if (promotionToModify.code !== code) {
+            error.message = `Finns redan en promotion med code: ${code}`;
+            error.status = 400;
+            throw error;
+        }
+
+        if (promotionToModify.type === type && promotionToModify.code === code && promotionToModify.title === title && promotionToModify.information === information && compareArrays(promotionToModify.items, items) && promotionToModify.discount === discount && promotionToModify.freeItem === freeItem) {
+            error.message = `Du har inte ändrat på några uppgifter för ${code}`;
+            error.status = 400;
+            throw error;
+        }
+
+
+        await database.update(
+            { id: id },
+            { $set: { type, code, title, information, items, discount, freeItem, modiefiedAt: currentTime() } }
+        );
+
         // Behöver anropa igen ifall code har ändrats.
         promotionToModify = await database.findOne({ id: id });
 

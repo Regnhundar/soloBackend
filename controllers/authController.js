@@ -8,8 +8,10 @@ const database = new nedb({ filename: "./data/users.db", autoload: true });
 // @route /auth/login
 export const loginUser = async (req, res, next) => {
     try {
+        const error = new Error();
+
         if (global.currentUser) {
-            const error = new Error("Du är redan inloggad. Logga ut först.");
+            error.message = "Du är redan inloggad. Logga ut först.";
             error.status = 400;
             throw error;
         }
@@ -23,7 +25,7 @@ export const loginUser = async (req, res, next) => {
             global.currentUser = authUser;
             res.status(200).json({ message: `Välkommen tillbaka ${username}!` })
         } else {
-            const error = new Error("Antingen användarnamn eller lösenord är fel")
+            error.message = "Antingen användarnamn eller lösenord är fel";
             error.status = 400
             throw (error);
         }
@@ -51,9 +53,10 @@ export const logoutUser = (req, res, next) => {
 // @route /auth/register
 export const registerUser = async (req, res, next) => {
     try {
+        const error = new Error();
 
         if (global.currentUser) {
-            const error = new Error("Du behöver logga ut innan du registrerar ny användare.");
+            error.message = "Du behöver logga ut innan du registrerar ny användare.";
             error.status = 400;
             throw error;
         }
@@ -64,12 +67,12 @@ export const registerUser = async (req, res, next) => {
 
         // OM användarnamnet som angetts i req.body finns i databasen så är användarnamnet redan upptaget och vi kastar ett fel.
         if (user) {
-            const error = new Error(`Användarnamn upptaget. Prova ${username}1`)
+            error.message = `Användarnamn upptaget. Prova ${username}1`
             error.status = 409
             throw (error);
         }
         if (userMail) {
-            const error = new Error(`Din email har redan registrerats av en användare.`)
+            error.message = `Din email har redan registrerats av en användare.`
             error.status = 409
             throw (error);
         }
