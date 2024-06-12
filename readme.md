@@ -1,7 +1,7 @@
 # Individuell examination Backend med Node.js
 Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJNTJo4U2JyGz2sVRwW42vEmDBrAYX8mmAC1IUTvvNM/edit#heading=h.q4mhl65fa75e)  
 
-Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)  
+Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br>
 
 # :exclamation: Route /about:  
 Routen hanterar information sparad i vår about-databas.  
@@ -10,7 +10,7 @@ Routen hanterar information sparad i vår about-databas.
 En GET-förfrågan som hämtar all information som är skrivet i vår about-databas. Informationen hämtas i JSON-format.  
 
 ### URL:  
-```GET: http://localhost:1337/about```  
+```GET: http://localhost:1337/about```<br><br>  
 
 # :exclamation: Route /auth:  
 Routen hanterar registrering, inlogging och utloggning av användare.  
@@ -49,7 +49,7 @@ POST-förfrågan som loggar ut en inloggade användaren eller returnerar ett fel
 
 ### URL:   
 
-```POST: http://localhost:1337/auth/logout```  
+```POST: http://localhost:1337/auth/logout```<br><br>  
 
 # :exclamation: Route /menu:  
 
@@ -109,7 +109,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar produktens id i meny-databasen.  
+:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
 
 # :exclamation: Route /cart:  
 
@@ -148,7 +148,7 @@ DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första 
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar produktens id i meny-databasen.  
+:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
 
 # :exclamation: Route /orders:  
 
@@ -176,7 +176,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 
 ### URL:   
 
-```GET: http://localhost:1337/orders/status```  
+```GET: http://localhost:1337/orders/status```<br><br>  
 
 # :exclamation: Route /promotions   
 
