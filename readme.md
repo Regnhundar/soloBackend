@@ -3,7 +3,7 @@ Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJN
 
 Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)  
 
-# :o: Route /about:  
+# :exclamation: Route /about:  
 Routen hanterar information sparad i vår about-databas.  
 
 ## Hämta about:  
@@ -11,7 +11,7 @@ En GET-förfrågan som hämtar all information som är skrivet i vår about-data
 ### URL:  
 ```GET: http://localhost:1337/about```  
 
-# :o: Route /auth:  
+# :exclamation: Route /auth:  
 Routen hanterar registrering, inlogging och utloggning av användare.  
 
 ## Registrera användare:   
@@ -20,8 +20,6 @@ Lyckat anrop loggar in den nyregistrerade användaren.
 Nya användare sparas i JSON-data i user-databasen och har automatiskt role: "user".  
 För att sätta admin måste man manuellt ändra i databasen.
 ### Body:  
-> [!TIP]
-> Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
 
 ```{"username": "Mourinho", "password": "Special1", "email": "mrboring@mail.com"}```
 ### URL:   
@@ -31,6 +29,9 @@ För att sätta admin måste man manuellt ändra i databasen.
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
 
 ### Body:  
+> [!TIP]
+> Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
+
 ```{"username": "Wenger", "password": "MyWinterCoat9"```  
 
 ### URL:   
@@ -40,7 +41,7 @@ POST-förfrågan som loggar ut en inloggade användaren eller returnerar ett fel
 ### URL:   
 ```POST: http://localhost:1337/auth/logout```
 
-# :o: Route /menu:  
+# :exclamation: Route /menu:  
 Routen hanterar hämtning, addering, modifiering och radering av produkter i meny-databasen.  
 
 ## Hämta menyn:  
@@ -89,7 +90,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 ### URL-parameter:  
 :id måste vara en siffra och motsvarar produktens id i meny-databasen.  
 
-# :o: Route /cart:  
+# :exclamation: Route /cart:  
 Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Applicerar också aktiva kampanjer.   
 
 ## Hämta produkter i cart:  
@@ -119,7 +120,7 @@ DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första 
 :id måste vara en siffra och motsvarar produktens id i meny-databasen.  
 
 
-# :o: Route /orders:  
+# :exclamation: Route /orders:  
 Routen hanterar tillverkning av orders, hämtning av orderhistorik och leverensstatus av order.  
 
 ## Skapa order:  
@@ -140,7 +141,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 ### URL:   
 ```GET: http://localhost:1337/orders/status```  
 
-# :o: Route /promotions   
+# :exclamation: Route /promotions   
 Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.  
 
 ## Hämta kampanjer:  
@@ -161,10 +162,13 @@ POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs da
 > [!IMPORTANT]
 > Promotions har tre types. ["free", "package", "shipping"] och beroende på vilken type krävs olika data i body.  
 
-* free ```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
-* package ```{"type": "package", "code": "halfOff", "title": "Triple threat!", "information": "Köp 3 Macarons och få dem för halva priset!", "items": ["Macaron", "Macaron", "Macaron"], "discount": 0.5}```  
+* FREE  
+```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
+* PACKAGE  
+```{"type": "package", "code": "halfOff", "title": "Triple threat!", "information": "Köp 3 Macarons och få dem för halva priset!", "items": ["Macaron", "Macaron", "Macaron"], "discount": 0.5}```  
 
-* shipping ```{"type": "shipping", "code": "freeShipping", "title": "Gratis frakt!", "information": "Ja alltså om du är registrerad användare och inloggad."}```  
+* SHIPPING  
+```{"type": "shipping", "code": "freeShipping", "title": "Gratis frakt!", "information": "Ja alltså om du är registrerad användare och inloggad."}```   
 
 ### URL:   
 ```POST: http://localhost:1337/promotions```  
