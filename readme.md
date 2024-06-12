@@ -224,7 +224,7 @@ PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. N
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar kampanjens id i meny-databasen.<br><br>  
+:id måste vara en siffra och motsvarar kampanjens id i promotions-databasen.<br><br>  
 
 ## :small_orange_diamond: Ändra på kampanj:  
 
@@ -250,5 +250,5 @@ PUT-förfrågan för att ändra på en redan existerande kampanj. Skickar JSON-d
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar kampanjens id i meny-databasen.  
+:id måste vara en siffra och motsvarar kampanjens id i promotions-databasen.  
 
