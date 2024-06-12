@@ -8,7 +8,7 @@ Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar
 ### Beskrivning:  
 En GET-förfrågan som hämtar all information som är skrivet i vår about-databas. Informationen hämtas i JSON-format.  
 ### URL:  
-``` GET: http://localhost:1337/about```  
+```GET: http://localhost:1337/about```  
 
 # Route /auth:  
 ## Registrera användare:   
@@ -23,7 +23,7 @@ För att sätta admin måste man manuellt ändra i databasen.
 
 ## Logga in:  
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
-> [!IMPORTANT]OBS: Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.
+> [!IMPORTANT] OBS: Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.
 ### Body:  
 ```{"username": "Wenger", "password": "MyWinterCoat9"```
 ### URL:   
