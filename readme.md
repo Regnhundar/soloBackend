@@ -3,7 +3,7 @@ Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJN
 
 Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)  
 
-# Route /about:  
+# :o: Route /about:  
 ## About:  
 ### Beskrivning:  
 En GET-förfrågan som hämtar all information som är skrivet i vår about-databas. Informationen hämtas i JSON-format.  
@@ -23,7 +23,7 @@ För att sätta admin måste man manuellt ändra i databasen.
 
 ## Logga in:  
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
-**OBS: Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.**
+> [!IMPORTANT]OBS: Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.
 ### Body:  
 ```{"username": "Wenger", "password": "MyWinterCoat9"```
 ### URL:   
