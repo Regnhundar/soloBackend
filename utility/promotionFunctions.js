@@ -1,76 +1,111 @@
 import promotionsDB from "../controllers/promotionController.js";
 
+export const runPromotions = async (cart) => {
+    let updatedCart = [...cart];
+    const activePromotions = await promotionsDB.find({ active: true });
 
-// Hämtar alla aktiva promotions
-const activePromotions = await promotionsDB.find({ active: true });
+    if (activePromotions.length >= 1) {
 
-// Promotion 3 för 2
-const thirdItemFree = async (cart, menu) => {
-    try {
-        if (cart.length >= 3) {
-            cart[2].price = 0;
-        } else {
-            let freeItem = cart.findIndex(item => item.price === 0);
-            if (freeItem !== -1) {
-                const beforePromotion = await menu.findOne({ title: cart[freeItem].title })
-                cart[freeItem].price = beforePromotion.price;
-            }
-        }
-        return cart
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// Gratis frakt om du är inloggad.
-export const freeUserShipping = (shipping) => {
-    if (global.currentUser) {
-        shipping = 0
-    }
-    return shipping
-}
-
-// Våga vägra pengar.
-const goBankrupt = (cart, shipping) => {
-    cart.forEach(item => {
-        item.price = 0
-    });
-    shipping = 0;
-    return { cart, shipping }
-}
-
-// Knyter en funktion till respektive promotions id i databasen {promotion.id : funktionsNamn}
-const promotions = {
-    threeForTwo: thirdItemFree,
-    freeShipping: freeUserShipping,
-    liquidate: goBankrupt,
-}
-
-export const runPromotions = async (cart, menu, shipping) => {
-    try {
-        // "for of" loop istället för forEach då "for of" hanterar async bättre. (tydligen)
-        // forEach väntar inte på att en async funktion har kört klart förens den startar nästa varv. Det gör "for of".
         for (const promotion of activePromotions) {
-            const functionToRun = promotions[promotion.id];
-            if (functionToRun) {
-                if (promotion.id === 'freeShipping') {
-                    shipping = functionToRun(shipping);
-                } else if (promotion.id === 'liquidate') {
-                    const result = functionToRun(cart, shipping);
-                    shipping = result.shipping;
-                    cart = result.cart;
-                } else {
-                    await functionToRun(cart, menu);
-                }
-            } else {
-                const error = new Error(`Kan inte hitta en kampanj för ${promotion.id}`);
-                error.status = 404;
-                throw error;
+            switch (promotion.type) {
+                case "free":
+                    updatedCart = await freeItem(updatedCart, promotion.items, promotion.freeItem);
+                    break
+
+                case "package":
+                    updatedCart = await packageDeal(updatedCart, promotion.items, promotion.discount);
+                    break
+
+                case "shipping":
+                    global.shipping = freeShipping();
+                    break
             }
         }
-        return { cart, shipping };
-    } catch (error) {
-        console.log(error);
     }
 
+    return { updatedCart }
+}
+// Tar emot cart, en array av krav som ska uppfyllas och vilket föremål som blir gratis.
+const freeItem = async (cart, requiredItems, freebie) => {
+    const numberOfCombos = comboCount(cart, requiredItems);
+    if (numberOfCombos > 0) {
+        let freeItemsGranted = 0;
+        for (let item of cart) {
+            if (item.title === freebie && freeItemsGranted < numberOfCombos) {
+                item.price = 0;
+                freeItemsGranted++;
+            } else if (item.title === freebie && freeItemsGranted >= numberOfCombos && item.price === 0) {
+
+                item.price = item.originalPrice;
+            }
+        }
+    } else {
+        for (let item of cart) {
+            if (item.title === freebie && item.price === 0) {
+                item.price = item.originalPrice;
+            }
+        }
+    }
+
+    return cart;
+}
+
+
+
+const packageDeal = async (cart, requiredItems, discount) => {
+    const numberOfCombos = comboCount(cart, requiredItems);
+
+    // Återställer priset på alla requiredItems som finns i cart.
+    for (const requiredItem of requiredItems) {
+        for (const cartItem of cart) {
+            if (cartItem.title === requiredItem) {
+                cartItem.price = cartItem.originalPrice
+            }
+        }
+    }
+
+    if (numberOfCombos > 0) {
+        for (let requiredItem of requiredItems) {
+            let promotionItems = cart.filter(cartItem => cartItem.title === requiredItem);
+            let itemsToDiscount = numberOfCombos * requiredItems.filter(item => item === requiredItem).length
+            for (let i = 0; i < promotionItems.length && itemsToDiscount > 0; i++) {
+                if (promotionItems[i].price !== 0) {
+                    promotionItems[i].price = Math.ceil(promotionItems[i].originalPrice * discount);
+                    itemsToDiscount--
+                }
+            }
+        }
+    }
+    return cart;
+}
+
+
+// Går igenom arrayen requiredItems och jämför med cart. Returnerar siffran på kompletta "meals" i cart. 
+// Är requiredItems [Bryggkaffe, Cortado] och cart innehåller 2 Bryggkaffe och 1 Cortado returneras 1.
+const comboCount = (cart, requiredItems) => {
+    const itemCount = {}
+
+    // Om requiredItems innehåller ["Macron", "Macron", "Macron"] så kommer itemCount bli "Macron" : 3
+    requiredItems.forEach(item => {
+        itemCount[item] = (itemCount[item] || 0) + 1;
+    });
+
+    let completeCombos = Infinity;
+
+    // Object.keys(itemCount) gör itemCount till en array och tillåter array-metoder.
+    Object.keys(itemCount).forEach(item => {
+        const requiredCount = itemCount[item]; // Hur många som behövs av respektive item för att aktivera kampanj.
+        const cartCount = cart.filter(cartItem => cartItem.title === item).length; // Räknar samtliga required items i cart.
+        completeCombos = Math.min(completeCombos, Math.floor(cartCount / requiredCount)); // Sätter completeCombos till det lägsta numret av completeCombos och Math.Floor uträkningen.
+    });
+
+    return completeCombos;
 };
+
+const freeShipping = () => {
+    if (global.currentUser) {
+        return 0;
+    } else {
+        return 50;
+    }
+}

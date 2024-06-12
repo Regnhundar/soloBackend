@@ -1,6 +1,5 @@
 import Joi from "joi";
 
-//Schema som används av joiHandler vid regestrering av användare.
 const userSchema = Joi.object({
     username: Joi.string()
         .alphanum().message("Endast bokstäver och siffror är tillåtna.")

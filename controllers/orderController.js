@@ -1,7 +1,6 @@
 import nedb from 'nedb-promises';
 import cart from './cartController.js'
 import usersdb from './authController.js'
-import { freeUserShipping } from '../utility/promotionFunctions.js'
 import { setDeliveryTime, calculateDeliveryTime } from '../utility/timeFunction.js';
 
 //Skapar orders db
@@ -31,7 +30,7 @@ export const createOrder = async (req, res, next) => {
         }
 
         const order = [];
-        let shipping = freeUserShipping(global.shipping);
+        let shipping = global.shipping;
         let totalsum = 0;
 
         //Loopar cart och flyttar varje item till order. Uppdaterar totalpris. 
@@ -111,8 +110,11 @@ export const getUserOrders = async (req, res, next) => {
 // @desc GET Hämta leveranstid för inloggad användare.
 // @route /orders/status
 export const getOrderStatus = (req, res, next) => {
+
+    const error = new Error();
+
     if (!global.currentUser) {
-        const error = new Error("Ingen användare är inloggad")
+        error.message = "Ingen användare är inloggad"
         error.status = 401
         return next(error);
     }
@@ -120,7 +122,7 @@ export const getOrderStatus = (req, res, next) => {
     //Kollar om currentUser har någon aktiv order
     const undeliveredOrder = global.currentUser.orders[0]
     if (!undeliveredOrder) {
-        const error = new Error("Ingen aktiv beställning hittades")
+        error.message = "Ingen aktiv beställning hittades"
         error.status = 404
         return next(error);
     }
