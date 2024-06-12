@@ -20,15 +20,14 @@ Lyckat anrop loggar in den nyregistrerade användaren.
 Nya användare sparas i JSON-data i user-databasen och har automatiskt role: "user".  
 För att sätta admin måste man manuellt ändra i databasen.
 ### Body:  
+> [!TIP]
+> Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
+
 ```{"username": "Mourinho", "password": "Special1", "email": "mrboring@mail.com"}```
 ### URL:   
 ```POST: http://localhost:1337/auth/register```    
 
 ## Logga in:  
-
-> [!TIP]
-> Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
-
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
 
 ### Body:  
@@ -51,8 +50,10 @@ GET-förfrågan som försöker hämta hem samtliga produkter som är sparade i v
 ```GET: http://localhost:1337/menu```  
 
 ## Lägg till produkt i meny:  
+
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
+
 POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i vår meny-databas. Vid lyckat anrop sparas datan i JSON-format.
 ### Body:  
 ```{title": "Macaron", "desc": "Franskt kladd. Köp en Kanelbulle istället.", "price": 30}```
@@ -60,8 +61,10 @@ POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i
 ```POST: http://localhost:1337/menu```  
 
 ## Ändra på produkt i meny:  
+
 > [!WARNING]
-> Kräver admin-tillstånd. Logga in som Wenger.
+> Kräver admin-tillstånd. Logga in som Wenger.  
+
 PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-databas. Om förfrågan lyckas skrivs den gamla informationen över i databasen.  
 
 ### URL:    
@@ -74,8 +77,10 @@ PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-
 ```{title": "Macaron", "desc": "Franskt kladd. Köp en Kanelbulle istället.", "price": 40}```
 
 ## Radera en produkt i meny:  
+
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
+
 DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat anrop raderas produkten.  
 
 ### URL:   
@@ -181,10 +186,13 @@ PUT-förfrågan för att ändra på en redan existerande kampanj. Skickar JSON-d
 > [!IMPORTANT]
 > Promotions har tre types. ["free", "package", "shipping"] och beroende på vilken type krävs olika data i body.  
 
-* free ```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
-* package ```{"type": "package", "code": "halfOff", "title": "Triple threat!", "information": "Köp 3 Macarons och få dem för halva priset!", "items": ["Macaron", "Macaron", "Macaron"], "discount": 0.5}```  
+* FREE  
+```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
+* PACKAGE  
+```{"type": "package", "code": "halfOff", "title": "Triple threat!", "information": "Köp 3 Macarons och få dem för halva priset!", "items": ["Macaron", "Macaron", "Macaron"], "discount": 0.5}```  
 
-* shipping ```{"type": "shipping", "code": "freeShipping", "title": "Gratis frakt!", "information": "Ja alltså om du är registrerad användare och inloggad."}```  
+* SHIPPING  
+```{"type": "shipping", "code": "freeShipping", "title": "Gratis frakt!", "information": "Ja alltså om du är registrerad användare och inloggad."}```  
 
 ### URL:   
 ```PUT: http://localhost:1337/promotions/:id```  
