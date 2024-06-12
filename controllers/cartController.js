@@ -8,19 +8,17 @@ let cart = []
 // @route /cart
 export const getCart = async (req, res, next) => {
     try {
+        const error = new Error();
+
         if (!cart.length > 0) {
-            const error = {
-                status: 200,
-                message: 'Varukorgen är tom'
-            }
-            throw (error);
+            error.message = 'Varukorgen är tom'
+            error.status = 200
+            throw error;
         }
 
-        //Skapar totalPrice för cart
         let totalPrice = 0
 
-        //Variabel för användning av promotions (Skickar in cart, shipping och menu till runPromotions som skickar tillbaka dem updated)
-        const { cart: updatedCart, shipping: updatedShipping } = await runPromotions(cart, menu, global.shipping);
+        const { updatedCart } = await runPromotions(cart);
 
         cart.forEach(item => totalPrice += item.price);
 
@@ -29,8 +27,8 @@ export const getCart = async (req, res, next) => {
             status: 200,
             data: {
                 cart: updatedCart,
-                shipping: updatedShipping,
-                total: totalPrice + updatedShipping
+                shipping: global.shipping,
+                total: totalPrice + global.shipping
             }
         });
     } catch (error) {
@@ -43,16 +41,25 @@ export const getCart = async (req, res, next) => {
 // @route /cart
 export const addToCart = async (req, res, next) => {
     try {
-        const id = parseInt(req.params.id)
+
+        const id = parseInt(req.params.id);
+
+        const error = new Error();
+
+        if (isNaN(id)) {
+            error.message = "Du måste ange produktens id med siffror";
+            error.status = 401;
+            throw error;
+        }
+
         const foundItem = await menu.findOne({ id: id })
 
         if (!foundItem) {
-            const error = {
-                status: 400,
-                message: 'Kan inte lägga in produkten i varukorg'
-            }
-            throw (error);
+            error.message = `Finns ingen produkt med id: ${id}`
+            error.status = 404
+            throw error;
         }
+
 
         cart.push(foundItem);
 
@@ -71,16 +78,25 @@ export const addToCart = async (req, res, next) => {
 // @desc DELETE Ta bort från varukorgen
 // @route /cart/:id
 export const removeFromCart = (req, res, next) => {
-    const id = parseInt(req.params.id)
+
+    const id = parseInt(req.params.id);
+
+    const error = new Error();
+
+    if (isNaN(id)) {
+        error.message = "Du måste ange produktens id med siffror";
+        error.status = 401;
+        return next(error)
+    }
+
     const foundItem = cart.find(item => item.id === id)
     // Om produkten inte finns i varukorgen skickas ett felmeddelande
     if (!foundItem) {
-        const error = {
-            status: 404,
-            message: 'Produkten finns inte i varukorgen'
-        }
+        error.message = 'Produkten finns inte i varukorgen';
+        error.status = 404;
         return next(error)
     }
+
     // Om produkten finns i varukorgen letar vi upp dess index och tar bort den
     cart.splice(cart.indexOf(foundItem), 1)
     res.status(200).send({
