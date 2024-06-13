@@ -1,7 +1,7 @@
 # Individuell examination Backend med Node.js
 Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJNTJo4U2JyGz2sVRwW42vEmDBrAYX8mmAC1IUTvvNM/edit#heading=h.q4mhl65fa75e)  
 
-Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br><br><br>
+Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br><br>
 
 # :exclamation: Route /about:  <br>
 Routen hanterar information sparad i vår about-databas.<br><br>  
@@ -34,7 +34,7 @@ POST-förfrågan med JSON-data i body som försöker logga in en redan existeran
 
 ### Body:  
 
-```{"username": "Wenger", "password": "MyWinterCoat9"```<br>  
+```{"username": "Wenger", "password": "MyWinterCoat9"```<br><br>
 
 > [!TIP]
 > Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
@@ -69,7 +69,7 @@ POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
-<br>
+
 
 ### Body:  
 
@@ -85,7 +85,7 @@ PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
-<br>
+
 
 ### URL:    
 
@@ -105,7 +105,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
-<br>
+
 
 ### URL:   
 
