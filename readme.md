@@ -123,9 +123,6 @@ Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Appli
 
 GET-anrop som försöker hämta hem produkter som lagts in i cart. Vid lyckat anrop hämtas cart med innehåll.<br>  
 
-> [!NOTE]
-> Just nu appliceras kampanjer om några är aktiva via detta anrop.  
-<br>
 
 ### URL:   
 
@@ -133,7 +130,8 @@ GET-anrop som försöker hämta hem produkter som lagts in i cart. Vid lyckat an
 
 ## :small_orange_diamond: Lägg till produkt i cart:  
 
-POST-anrop som försöker lägga till en produkt från meny-databasen i cart.  
+POST-anrop som försöker lägga till en produkt från meny-databasen i cart.<br>
+Här appliceras också kampanjer.
 
 ### URL:   
 
@@ -145,7 +143,8 @@ POST-anrop som försöker lägga till en produkt från meny-databasen i cart.
 
 ## :small_orange_diamond: Ta bort en produkt från cart:  
 
-DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första produkten med matchande id.  
+DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första produkten med matchande id.<br>
+Här appliceras också kampanjer.
 
 ### URL:   
 
