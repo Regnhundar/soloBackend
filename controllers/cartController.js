@@ -4,7 +4,7 @@ import { runPromotions } from "../utility/promotionFunctions.js";
 //Skapar cart
 let cart = []
 
-// @desc GET Hämta hem varukorgen och applicerar kampanjer.
+// @desc GET Hämta hem varukorgen.
 // @route /cart
 export const getCart = async (req, res, next) => {
     try {
@@ -18,7 +18,7 @@ export const getCart = async (req, res, next) => {
 
         let totalPrice = 0
 
-        const { updatedCart } = await runPromotions(cart);
+
 
         cart.forEach(item => totalPrice += item.price);
 
@@ -26,7 +26,7 @@ export const getCart = async (req, res, next) => {
             success: true,
             status: 200,
             data: {
-                cart: updatedCart,
+                cart,
                 shipping: global.shipping,
                 total: totalPrice + global.shipping
             }
@@ -37,7 +37,7 @@ export const getCart = async (req, res, next) => {
 
 };
 
-// @desc POST Lägg till i varukorgen
+// @desc POST Lägg till i varukorgen och applicerar kampanjer.
 // @route /cart
 export const addToCart = async (req, res, next) => {
     try {
@@ -62,12 +62,13 @@ export const addToCart = async (req, res, next) => {
 
 
         cart.push(foundItem);
+        const { updatedCart } = await runPromotions(cart);
 
         res.status(200).send({
             success: true,
             status: 200,
             message: 'Produkt tillagd i varukorgen',
-            data: { cart }
+            data: { updatedCart }
         })
     } catch (error) {
         next(error);
@@ -75,9 +76,9 @@ export const addToCart = async (req, res, next) => {
 
 }
 
-// @desc DELETE Ta bort från varukorgen
+// @desc DELETE Ta bort från varukorgen och applicerar kampanjer.
 // @route /cart/:id
-export const removeFromCart = (req, res, next) => {
+export const removeFromCart = async (req, res, next) => {
 
     const id = parseInt(req.params.id);
 
@@ -99,11 +100,13 @@ export const removeFromCart = (req, res, next) => {
 
     // Om produkten finns i varukorgen letar vi upp dess index och tar bort den
     cart.splice(cart.indexOf(foundItem), 1)
+    const { updatedCart } = await runPromotions(cart);
+
     res.status(200).send({
         success: true,
         status: 200,
         message: 'Produkt borttagen från varukorgen',
-        data: { cart }
+        data: { updatedCart }
     })
 }
 

@@ -1,5 +1,7 @@
 import promotionsDB from "../controllers/promotionController.js";
 
+// Körs när man lägger till eller tar bort från cart. 
+// Om det finns aktiva promotions så loopas de igenom och kollar vilken typ av promotion. Därefter kör respektive typs funktion med uppgifter som behövs.
 export const runPromotions = async (cart) => {
     let updatedCart = [...cart];
     const activePromotions = await promotionsDB.find({ active: true });
@@ -27,7 +29,7 @@ export const runPromotions = async (cart) => {
 }
 // Tar emot cart, en array av krav som ska uppfyllas och vilket föremål som blir gratis.
 const freeItem = async (cart, requiredItems, freebie) => {
-    const numberOfCombos = comboCount(cart, requiredItems);
+    const numberOfCombos = comboCount(cart, requiredItems); // returnerar hur många kompletta kampanj-combos som uppfyllts.
     if (numberOfCombos > 0) {
         let freeItemsGranted = 0;
         for (let item of cart) {
