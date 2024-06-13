@@ -13,7 +13,7 @@ En GET-förfrågan som hämtar all information som är skrivet i vår about-data
 ```GET: http://localhost:1337/about```<br><br><br><br>
 
 # :exclamation: Route /auth:  <br>
-Routen hanterar registrering, inlogging och utloggning av användare.<br><br>  
+Routen hanterar registrering, inlogging och utloggning av användare.<br><br><br>
 
 ## :small_orange_diamond: Registrera användare:   
 POST-förfrågan med JSON-data i body som försöker registrera en ny användare.  
@@ -27,7 +27,7 @@ För att sätta admin måste man manuellt ändra i databasen.
 
 ### URL:   
 
-```POST: http://localhost:1337/auth/register```<br><br>    
+```POST: http://localhost:1337/auth/register```<br><br><br>
 
 ## :small_orange_diamond: Logga in:  
 POST-förfrågan med JSON-data i body som försöker logga in en redan existerande användare i vår databas. Vid lyckat anrop loggas användaren in.  
@@ -41,7 +41,7 @@ POST-förfrågan med JSON-data i body som försöker logga in en redan existeran
 
 ### URL:   
 
-```POST: http://localhost:1337/auth/login```<br><br>  
+```POST: http://localhost:1337/auth/login```<br><br><br>
 
 ## :small_orange_diamond: Logga ut:  
 
@@ -53,14 +53,14 @@ POST-förfrågan som loggar ut en inloggad användare eller returnerar ett fel i
 
 # :exclamation: Route /menu:  <br>
 
-Routen hanterar hämtning, tillägg, modifiering och radering av produkter i meny-databasen.<br><br>  
+Routen hanterar hämtning, tillägg, modifiering och radering av produkter i meny-databasen.<br><br><br>
 
 ## :small_orange_diamond: Hämta menyn:  
 GET-förfrågan som försöker hämta hem samtliga produkter som är sparade i vår meny-databas. Datan hämtas i JSON-format.  
 
 ### URL:  
 
-```GET: http://localhost:1337/menu```<br><br>  
+```GET: http://localhost:1337/menu```<br><br><br>
 
 ## :small_orange_diamond: Lägg till produkt i meny:  
 
@@ -75,7 +75,7 @@ POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i
 
 ### URL:   
 
-```POST: http://localhost:1337/menu```<br><br>  
+```POST: http://localhost:1337/menu```<br><br><br>
 
 ## :small_orange_diamond: Ändra på produkt i meny:  
 
@@ -94,7 +94,7 @@ PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-
 
 ### Body:  
 
-```{title": "Macaron", "desc": "Franskt kladd. Köp en Kanelbulle istället.", "price": 40}```<br><br>  
+```{title": "Macaron", "desc": "Franskt kladd. Köp en Kanelbulle istället.", "price": 40}```<br><br><br>
 
 ## :small_orange_diamond: Radera en produkt i meny:  
 
@@ -113,7 +113,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 
 # :exclamation: Route /cart:  <br>
 
-Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Applicerar också aktiva kampanjer.<br><br>   
+Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Applicerar också aktiva kampanjer.<br><br><br>
 
 ## :small_orange_diamond: Hämta produkter i cart:  
 
@@ -124,7 +124,7 @@ GET-anrop som försöker hämta hem produkter som lagts in i cart. Vid lyckat an
 
 ### URL:   
 
-```GET: http://localhost:1337/cart```<br><br>  
+```GET: http://localhost:1337/cart```<br><br><br>
 
 ## :small_orange_diamond: Lägg till produkt i cart:  
 
@@ -136,7 +136,7 @@ POST-anrop som försöker lägga till en produkt från meny-databasen i cart.
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
+:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br><br>
 
 ## :small_orange_diamond: Ta bort en produkt från cart:  
 
@@ -152,7 +152,7 @@ DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första 
 
 # :exclamation: Route /orders:  <br>
 
-Routen hanterar tillverkning av orders, hämtning av orderhistorik och leverensstatus av order.<br><br>  
+Routen hanterar tillverkning av orders, hämtning av orderhistorik och leverensstatus av order.<br><br><br>
 
 ## :small_orange_diamond: Skapa order:  
 
@@ -160,7 +160,7 @@ POST-förfrågan som vid lyckat anrop hämtar cart och sparar informationen i JS
 
 ### URL:   
 
-```POST: http://localhost:1337/orders```<br><br>  
+```POST: http://localhost:1337/orders```<br><br><br>
 
 ## :small_orange_diamond: Hämta orderhistorik:  
 
@@ -168,7 +168,7 @@ POST-förfrågan som försöker hämta orderhistoriken av en inloggad användare
 
 ### URL:   
 
-```POST: http://localhost:1337/orders/user```<br><br>  
+```POST: http://localhost:1337/orders/user```<br><br><br>
 
 ## :small_orange_diamond: Hämta orderstatus:  
 
@@ -180,7 +180,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 
 # :exclamation: Route /promotions   <br>
 
-Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.  
+Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.
 
 ## :small_orange_diamond: Hämta kampanjer:  
 
@@ -188,7 +188,7 @@ GET-förfrågan som försöker hämta samtliga kampanjer som är sparade i promo
 
 ### URL:   
 
-```GET: http://localhost:1337/promotions```<br><br>  
+```GET: http://localhost:1337/promotions```<br><br><br>
 
 ## :small_orange_diamond: Lägg till kampanj:  
 
@@ -212,7 +212,7 @@ POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs da
 
 ### URL:   
 
-```POST: http://localhost:1337/promotions```<br><br>  
+```POST: http://localhost:1337/promotions```<br><br><br>
 
 ## :small_orange_diamond: Aktivera kampanj:  
 
@@ -227,7 +227,7 @@ PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. N
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar kampanjens id i promotions-databasen.<br><br>  
+:id måste vara en siffra och motsvarar kampanjens id i promotions-databasen.<br><br><br>
 
 ## :small_orange_diamond: Ändra på kampanj:  
 
