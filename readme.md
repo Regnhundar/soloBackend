@@ -34,10 +34,11 @@ POST-förfrågan med JSON-data i body som försöker logga in en redan existeran
 
 ### Body:  
 
-```{"username": "Wenger", "password": "MyWinterCoat9"```  
+```{"username": "Wenger", "password": "MyWinterCoat9"```<br>  
 
 > [!TIP]
 > Wenger är admin. Använd den här inloggningen för att testa admin-tillstånd.  
+<br>
 
 ### URL:   
 
@@ -64,10 +65,11 @@ GET-förfrågan som försöker hämta hem samtliga produkter som är sparade i v
 
 ## :small_orange_diamond: Lägg till produkt i meny:  
 
-POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i vår meny-databas. Vid lyckat anrop sparas datan i JSON-format.  
+POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i vår meny-databas. Vid lyckat anrop sparas datan i JSON-format.<br>  
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
+<br>
 
 ### Body:  
 
@@ -79,10 +81,11 @@ POST-förfrågan med JSON-data i body som försöker lägga till en ny produkt i
 
 ## :small_orange_diamond: Ändra på produkt i meny:  
 
-PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-databas. Om förfrågan lyckas skrivs den gamla informationen över i databasen.  
+PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-databas. Om förfrågan lyckas skrivs den gamla informationen över i databasen.<br>  
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
+<br>
 
 ### URL:    
 
@@ -98,10 +101,11 @@ PUT-anrop med JSON-data i body som försöker ändra på en produkt i vår meny-
 
 ## :small_orange_diamond: Radera en produkt i meny:  
 
-DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat anrop raderas produkten.  
+DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat anrop raderas produkten.<br>  
 
 > [!WARNING]
 > Kräver admin-tillstånd. Logga in som Wenger.  
+<br>
 
 ### URL:   
 
@@ -117,10 +121,11 @@ Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Appli
 
 ## :small_orange_diamond: Hämta produkter i cart:  
 
-GET-anrop som försöker hämta hem produkter som lagts in i cart. Vid lyckat anrop hämtas cart med innehåll.  
+GET-anrop som försöker hämta hem produkter som lagts in i cart. Vid lyckat anrop hämtas cart med innehåll.<br>  
 
 > [!NOTE]
 > Just nu appliceras kampanjer om några är aktiva via detta anrop.  
+<br>
 
 ### URL:   
 
@@ -180,7 +185,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 
 # :exclamation: Route /promotions   <br>
 
-Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.
+Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.<br><br><br>
 
 ## :small_orange_diamond: Hämta kampanjer:  
 
@@ -192,15 +197,18 @@ GET-förfrågan som försöker hämta samtliga kampanjer som är sparade i promo
 
 ## :small_orange_diamond: Lägg till kampanj:  
 
-POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs datan in i promotions-databasen.  
+POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs datan in i promotions-databasen.<br>  
 
 > [!NOTE]
-> Nya kampanjer läggs till som inaktiva. Du behöver göra ett PATCH-anrop på respektive kampanjs id för att toggla status.  
+> Nya kampanjer läggs till som inaktiva. Du behöver göra ett PATCH-anrop på respektive kampanjs id för att toggla status.
+<br>  
 
 ### Body:  
+<br>
 
 > [!IMPORTANT]
 > Promotions har tre types. ["free", "package", "shipping"] och beroende på vilken type krävs olika data i body.  
+<br>
 
 * FREE:  
 ```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
@@ -216,10 +224,11 @@ POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs da
 
 ## :small_orange_diamond: Aktivera kampanj:  
 
-PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. Nya kampanjer startar alltid som false.  
+PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. Nya kampanjer startar alltid som false.  <br>
 
 > [!CAUTION]
 > Just nu fungerar det inte att ha fler av samma type av kampanj aktiv.  
+<br>
 
 ### URL:   
 
@@ -234,9 +243,11 @@ PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. N
 PUT-förfrågan för att ändra på en redan existerande kampanj. Skickar JSON-data i body och vid lyckat anrop skrivs existerande kampanj i databasen över med ny information.  
 
 ### Body:  
+<br>
 
 > [!IMPORTANT]
 > Promotions har tre types. ["free", "package", "shipping"] och beroende på vilken type krävs olika data i body.  
+<br>
 
 * FREE:  
 ```{"type": "free", "code": "svenssonSpecial", "title": "Äventyrligheten själv!", "information": "Du får en gratis kanelbulle vid köp av en slät kopp bryggkaffe!", "items": ["Kanelbulle", "Bryggkaffe"], "freeItem": "Kanelbulle"}```  
