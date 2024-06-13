@@ -3,7 +3,7 @@ Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJN
 
 Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br>
 
-# :exclamation: Route /about:  
+# :exclamation: Route /about:  <br>
 Routen hanterar information sparad i vår about-databas.<br><br>  
 
 ## :small_orange_diamond: Hämta about:  
@@ -12,7 +12,7 @@ En GET-förfrågan som hämtar all information som är skrivet i vår about-data
 ### URL:  
 ```GET: http://localhost:1337/about```<br><br>  
 
-# :exclamation: Route /auth:  
+# :exclamation: Route /auth:  <br>
 Routen hanterar registrering, inlogging och utloggning av användare.<br><br>  
 
 ## :small_orange_diamond: Registrera användare:   
@@ -51,7 +51,7 @@ POST-förfrågan som loggar ut en inloggade användaren eller returnerar ett fel
 
 ```POST: http://localhost:1337/auth/logout```<br><br>  
 
-# :exclamation: Route /menu:  
+# :exclamation: Route /menu:  <br>
 
 Routen hanterar hämtning, addering, modifiering och radering av produkter i meny-databasen.<br><br>  
 
@@ -111,7 +111,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 
 :id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
 
-# :exclamation: Route /cart:  
+# :exclamation: Route /cart:  <br>
 
 Routen hanterar hur produkter hämtas, läggs till och raderas från cart. Applicerar också aktiva kampanjer.<br><br>   
 
@@ -150,7 +150,7 @@ DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första 
 
 :id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
 
-# :exclamation: Route /orders:  
+# :exclamation: Route /orders:  <br>
 
 Routen hanterar tillverkning av orders, hämtning av orderhistorik och leverensstatus av order.<br><br>  
 
@@ -178,7 +178,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 
 ```GET: http://localhost:1337/orders/status```<br><br>  
 
-# :exclamation: Route /promotions   
+# :exclamation: Route /promotions   <br>
 
 Routen hanterar hämtning, addering, aktivering och ändring av kampanjer.  
 
@@ -217,6 +217,9 @@ POST-förfrågan som skickar med JSON-data i body och vid lyckat anrop läggs da
 ## :small_orange_diamond: Aktivera kampanj:  
 
 PATCH-anrop som togglar active: true/false på respektive kampanj i databasen. Nya kampanjer startar alltid som false.  
+
+> [!CAUTION]
+> Just nu fungerar det inte att ha fler av samma type av kampanj aktiv.  
 
 ### URL:   
 
