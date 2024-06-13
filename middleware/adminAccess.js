@@ -4,7 +4,7 @@ const adminAccess = (req, res, next) => {
         return next();
     }
     const error = new Error("Du måste ha admin-rättigheter för att utföra denna aktion.");
-    error.status = 400;
+    error.status = 401;
     next(error);
 }
 
