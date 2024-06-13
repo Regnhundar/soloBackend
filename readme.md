@@ -1,7 +1,7 @@
 # Individuell examination Backend med Node.js
 Instruktion för uppgiften finns [här.](https://docs.google.com/document/d/1MJNTJo4U2JyGz2sVRwW42vEmDBrAYX8mmAC1IUTvvNM/edit#heading=h.q4mhl65fa75e)  
 
-Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br>
+Det här är fortsättningen på [gruppuppgiften.](https://github.com/Regnhundar/reschedulersBackend)<br><br><br> <br><br><br> 
 
 # :exclamation: Route /about:  <br>
 Routen hanterar information sparad i vår about-databas.<br><br>  
@@ -10,7 +10,7 @@ Routen hanterar information sparad i vår about-databas.<br><br>
 En GET-förfrågan som hämtar all information som är skrivet i vår about-databas. Informationen hämtas i JSON-format.  
 
 ### URL:  
-```GET: http://localhost:1337/about```<br><br>  
+```GET: http://localhost:1337/about```<br><br><br> <br><br><br>     
 
 # :exclamation: Route /auth:  <br>
 Routen hanterar registrering, inlogging och utloggning av användare.<br><br>  
@@ -45,15 +45,15 @@ POST-förfrågan med JSON-data i body som försöker logga in en redan existeran
 
 ## :small_orange_diamond: Logga ut:  
 
-POST-förfrågan som loggar ut en inloggade användaren eller returnerar ett fel ifall ingen är inloggad.  
+POST-förfrågan som loggar ut en inloggad användare eller returnerar ett fel ifall ingen är inloggad.  
 
 ### URL:   
 
-```POST: http://localhost:1337/auth/logout```<br><br>  
+```POST: http://localhost:1337/auth/logout```<br><br><br> <br><br><br>     
 
 # :exclamation: Route /menu:  <br>
 
-Routen hanterar hämtning, addering, modifiering och radering av produkter i meny-databasen.<br><br>  
+Routen hanterar hämtning, tillägg, modifiering och radering av produkter i meny-databasen.<br><br>  
 
 ## :small_orange_diamond: Hämta menyn:  
 GET-förfrågan som försöker hämta hem samtliga produkter som är sparade i vår meny-databas. Datan hämtas i JSON-format.  
@@ -109,7 +109,7 @@ DELETE-förfrågan som försöker radera en produkt i meny-databasen. Vid lyckat
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
+:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br><br> <br><br><br>   
 
 # :exclamation: Route /cart:  <br>
 
@@ -148,7 +148,7 @@ DELETE-anrop som försöker ta bort en produkt från cart. Tar bort den första 
 
 ### URL-parameter:  
 
-:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br>  
+:id måste vara en siffra och motsvarar produktens id i meny-databasen.<br><br><br> <br><br><br>   
 
 # :exclamation: Route /orders:  <br>
 
@@ -176,7 +176,7 @@ POST-anrop som försöker hämta orderstatusen för den inloggade användarens s
 
 ### URL:   
 
-```GET: http://localhost:1337/orders/status```<br><br>  
+```GET: http://localhost:1337/orders/status```<br><br><br> <br><br><br>   
 
 # :exclamation: Route /promotions   <br>
 
